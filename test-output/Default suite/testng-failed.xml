@@ -6,7 +6,7 @@
       <class name="tests.BaseClass">
         <methods>
           <include name="afterMethod"/>
-          <include name="sendEmail" invocation-numbers="0 3 4"/>
+          <include name="sendEmail"/>
           <include name="beforeMethod"/>
         </methods>
       </class> <!-- tests.BaseClass -->

@@ -10,32 +10,34 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.annotations.Parameters;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import pages.GoogleEmail;
 import pages.MobileMail;
 import pages.MobileMailSignIn;
-import utility.Parameters;
+import utility.GetDataProvider;
 
 public class BaseClass{
 	AppiumDriver<MobileElement> driver;
 	WebDriver webDriver;
 	
 	@BeforeMethod
-	public void beforeMethod() {
+	@Parameters({"deviceName","udid", "platformVersion","url"})
+	public void beforeMethod(String deviceName, String udid, String platformVersion, String url) {
 		// TODO Auto-generated constructor stub
 		DesiredCapabilities caps = new DesiredCapabilities();
-		caps.setCapability("deviceName", "EmulatorP3");
-		caps.setCapability("udid", "330089a828d1a343");
-		caps.setCapability("platformVersion", "8.1.0");
+		caps.setCapability("deviceName", deviceName);
+		caps.setCapability("udid", udid);
+		caps.setCapability("platformVersion", platformVersion);
 		caps.setCapability("platformName", "Android");
 		caps.setCapability("appPackage", "com.google.android.gm");
 		caps.setCapability("appActivity", ".ConversationListActivityGmail");
 		
 		try {
-			URL url = new URL ("http://0.0.0.0:4723/wd/hub");
-			driver = new AppiumDriver<MobileElement> (url, caps);
+			URL urlHub = new URL (url);
+			driver = new AppiumDriver<MobileElement> (urlHub, caps);
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -49,7 +51,7 @@ public class BaseClass{
 		webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
-	@Test(dataProvider = "email-to-send", dataProviderClass = Parameters.class)
+	@Test(dataProvider = "email-to-send", dataProviderClass = GetDataProvider.class)
 	public void sendEmail(String fromEmail, String toEmail, String password, String subject, String content) throws InterruptedException {
 		System.out.println("Go to Email");
 		MobileMailSignIn home = new MobileMailSignIn(driver);
