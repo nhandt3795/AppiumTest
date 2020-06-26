@@ -22,7 +22,7 @@ import org.openqa.selenium.WebDriver.TargetLocator;
 public class GoogleEmail {
 	WebDriver driver;
 	public static long registerTime;
-	String MAILFROMPARAM = "//*[@class=\"yW\"]//span[@email=\"{param}\"]/../../../..//td[@class=\"xW xY \"]/span/span";
+	String LATESTMAILFROMPARAM = "(//*[@class=\"yW\"]//span[@email=\"{param}\"]/../../../..//td[@class=\"xW xY \"]/span/span)[1]";
 
 	public TargetLocator switchTo() {
 		// TODO Auto-generated method stub
@@ -110,7 +110,7 @@ public class GoogleEmail {
 		this.clickPasswordNext();
 		try {
 			driver.findElement(BTN_CONFIRM).click();
-		} catch(NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 		}
 	}
 
@@ -154,57 +154,43 @@ public class GoogleEmail {
 		return false;
 	}
 
-	public boolean isExistUnreadEmail(String subject) {
-		List<WebElement> unreadMails = this.driver
-				.findElements(By.xpath("//table/tbody/tr/td//span[@class=\"bog\"]/span[text()='" + subject + "']"));
-		if (unreadMails.size() > 0) {
-			return true;
-		}
-		return false;
-	}
-
 	public boolean isExistMailFrom(String hostEmail) {
 
 		// Get current time
 		LocalTime currentTime = LocalTime.now();
 		// Get list of email from "Host Email"
-		List<WebElement> unreadMails = this.driver.findElements(By.xpath(MAILFROMPARAM.replace("{param}", hostEmail)));
-		if (unreadMails.size() == 0) {
-			return false;
-		} else {
-			for (int i = 0; i < unreadMails.size(); i++) {
-				String receivedTime = unreadMails.get(i).getText();
-				// Get email received time and check if it's no more than 2 minutes
-				if (receivedTime.contains("M")) {
-					try {
-						DateFormat df = new SimpleDateFormat("hh:mm aa");
-						DateFormat outputFormat = new SimpleDateFormat("HH:mm");
-						Date time12 = df.parse(receivedTime);
-						String output = outputFormat.format(time12);
-						LocalTime mailtime = LocalTime.parse(output);
-						if (Duration.between(mailtime, currentTime).toMinutes() < 2) {
-							return true;
-						} else {
-							continue;
-						}
-					} catch (ParseException pe) {
-						continue;
-					}
+		try {
+		String receivedTime = this.driver.findElement(By.xpath(LATESTMAILFROMPARAM.replace("{param}", hostEmail))).getText();
+		if (receivedTime.contains("M")) {
+			try {
+				DateFormat df = new SimpleDateFormat("hh:mm aa");
+				DateFormat outputFormat = new SimpleDateFormat("HH:mm");
+				Date time12 = df.parse(receivedTime);
+				String output = outputFormat.format(time12);
+				LocalTime mailtime = LocalTime.parse(output);
+				if (Duration.between(mailtime, currentTime).toMinutes() < 2) {
+					return true;
 				} else {
-					try {
-						LocalTime mailTime = LocalTime.parse(unreadMails.get(i).getText());
-						if (Duration.between(mailTime, currentTime).toMinutes() < 2) {
-							return true;
-						} else {
-							continue;
-						}
-
-					} catch (DateTimeParseException pe) {
-						continue;
-					}
+					return false;
 				}
+			} catch (ParseException pe) {
+				return false;
 			}
+		} else {
+			try {
+				LocalTime mailTime = LocalTime.parse(receivedTime);
+				if (Duration.between(mailTime, currentTime).toMinutes() < 2) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (DateTimeParseException pe) {
+				return false;
+			}
+		}
+		} catch (NoSuchElementException ne) {
 			return false;
 		}
+		// Get email received time and check if it's no more than 2 minutes
 	}
 }

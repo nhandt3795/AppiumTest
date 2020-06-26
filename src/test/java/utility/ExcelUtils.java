@@ -39,10 +39,10 @@ public class ExcelUtils {
 			int ci, cj;
 			int totalRows = ExcelWSheet.getLastRowNum();
 			int totalCols = ExcelWSheet.getRow(0).getLastCellNum();
-			tabArray = new String[totalRows][totalCols];
+			tabArray = new String[1][totalCols];
 			ci = 0;
 
-			for (int i = startRow; i <= totalRows; i++, ci++) {
+			for (int i = startRow; i <= 1; i++, ci++) {
 				cj = 0;
 				for (int j = startCol; j < totalCols; j++, cj++) {
 					tabArray[ci][cj] = getCellData(i, j);
