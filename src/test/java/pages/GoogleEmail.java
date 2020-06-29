@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver.Navigation;
@@ -163,6 +164,7 @@ public class GoogleEmail {
 		String receivedTime = this.driver.findElement(By.xpath(LATESTMAILFROMPARAM.replace("{param}", hostEmail))).getText();
 		if (receivedTime.contains("M")) {
 			try {
+				// Get email received time and check if it's no more than 2 minutes
 				DateFormat df = new SimpleDateFormat("hh:mm aa");
 				DateFormat outputFormat = new SimpleDateFormat("HH:mm");
 				Date time12 = df.parse(receivedTime);
@@ -178,6 +180,7 @@ public class GoogleEmail {
 			}
 		} else {
 			try {
+				// Get email received time and check if it's no more than 2 minutes
 				LocalTime mailTime = LocalTime.parse(receivedTime);
 				if (Duration.between(mailTime, currentTime).toMinutes() < 2) {
 					return true;
@@ -191,6 +194,37 @@ public class GoogleEmail {
 		} catch (NoSuchElementException ne) {
 			return false;
 		}
-		// Get email received time and check if it's no more than 2 minutes
+		catch (StaleElementReferenceException e) {
+			String receivedTime = this.driver.findElement(By.xpath(LATESTMAILFROMPARAM.replace("{param}", hostEmail))).getText();
+			if (receivedTime.contains("M")) {
+				try {
+					// Get email received time and check if it's no more than 2 minutes
+					DateFormat df = new SimpleDateFormat("hh:mm aa");
+					DateFormat outputFormat = new SimpleDateFormat("HH:mm");
+					Date time12 = df.parse(receivedTime);
+					String output = outputFormat.format(time12);
+					LocalTime mailtime = LocalTime.parse(output);
+					if (Duration.between(mailtime, currentTime).toMinutes() < 2) {
+						return true;
+					} else {
+						return false;
+					}
+				} catch (ParseException pe) {
+					return false;
+				}
+			} else {
+				try {
+					// Get email received time and check if it's no more than 2 minutes
+					LocalTime mailTime = LocalTime.parse(receivedTime);
+					if (Duration.between(mailTime, currentTime).toMinutes() < 2) {
+						return true;
+					} else {
+						return false;
+					}
+				} catch (DateTimeParseException pe) {
+					return false;
+				}
+			}
+		}
 	}
 }

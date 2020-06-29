@@ -3,6 +3,8 @@ package utility;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -39,10 +41,10 @@ public class ExcelUtils {
 			int ci, cj;
 			int totalRows = ExcelWSheet.getLastRowNum();
 			int totalCols = ExcelWSheet.getRow(0).getLastCellNum();
-			tabArray = new String[1][totalCols];
+			tabArray = new String[totalRows][totalCols];
 			ci = 0;
 
-			for (int i = startRow; i <= 1; i++, ci++) {
+			for (int i = startRow; i <= totalRows; i++, ci++) {
 				cj = 0;
 				for (int j = startCol; j < totalCols; j++, cj++) {
 					tabArray[ci][cj] = getCellData(i, j);
@@ -92,17 +94,19 @@ public class ExcelUtils {
 		}
 	}
 
-	public static int getRowContains(String sTestCaseName, int colNum) throws Exception {
-		int i;
-
+	public static List<Integer> getRowContains(String sTestCaseName, int iTestCaseNameColNum) throws Exception {
+		List <Integer> listRow = new ArrayList<Integer>();
 		try {
 			int rowCount = ExcelUtils.getRowUsed();
-			for (i = 0; i < rowCount; i++) {
-				if (ExcelUtils.getCellData(i, colNum).equalsIgnoreCase(sTestCaseName)) {
-					break;
+			for (int i = 1; i <= rowCount; i++) {
+				if (ExcelUtils.getCellData(i, iTestCaseNameColNum).equalsIgnoreCase(sTestCaseName)) {
+					listRow.add(i);
+				}
+				else {
+					continue;
 				}
 			}
-			return i;
+			return listRow;
 		} catch (Exception e) {
 			throw (e);
 		}
@@ -118,7 +122,7 @@ public class ExcelUtils {
 		}
 	}
 
-	public static Object[][] getTableArray(String FilePath, String SheetName, int iTestCaseRow) throws Exception {
+	public static Object[][] getTableArray(String FilePath, String SheetName, String sTestCaseName, int iTestCaseNameColNum) throws Exception {
 		String[][] tabArray = null;
 
 		try {
@@ -128,14 +132,20 @@ public class ExcelUtils {
 			ExcelWSheet = ExcelWBook.getSheet(SheetName);
 
 			int startCol = 1;
-			int ci = 0, cj = 0;
-			int totalRows = 1;
-			int totalCols = 1;
-			tabArray = new String[totalRows][totalCols];
-
-			for (int j = startCol; j <= totalCols; j++, cj++) {
-				tabArray[ci][cj] = getCellData(iTestCaseRow, j);
-				System.out.println(tabArray[ci][cj]);
+			int ci = 0;
+			
+			List<Integer> listTestCaseRow = getRowContains(sTestCaseName, iTestCaseNameColNum);
+			int totalRows = listTestCaseRow.size();
+			System.out.println(totalRows);
+			int totalCols = ExcelWSheet.getRow(listTestCaseRow.get(0)).getLastCellNum();
+			System.out.println(totalCols);
+			tabArray = new String[totalRows][totalCols-1];
+			for (int i = 0; i < totalRows; i++, ci++) {
+				int cj = 0;
+				for (int j = startCol; j < totalCols; j++, cj++) {
+					tabArray[ci][cj] = getCellData(listTestCaseRow.get(i), j);
+					System.out.println(tabArray[ci][cj]);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Could not read the Excel sheet");

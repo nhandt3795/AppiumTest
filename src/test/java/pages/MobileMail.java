@@ -35,6 +35,19 @@ public class MobileMail extends Base{
 		System.out.println("Sent Email");
 	}
 	
+	public void sendMailWithoutContent(String toEmail, String subject) {
+		MobileElement composeButton =  driver.findElementById(ID_BTN_COMPOSE);
+		composeButton.click();
+		System.out.println("Composing Email");
+		MobileElement fTo =  driver.findElementById(ID_TXT_TO);
+		fTo.sendKeys(toEmail);
+		MobileElement fSubject =  driver.findElementById(ID_TXT_SUBJECT);
+		fSubject.sendKeys(subject);
+		MobileElement sendButton =  driver.findElementById(ID_BTN_SEND);
+		sendButton.click();
+		System.out.println("Sent Email");
+	}
+	
 	public void selectHostMail(String fromEmail) {
 		MobileElement myAccount = driver.findElementById("com.google.android.gm:id/og_apd_ring_view");
 		myAccount.click();

@@ -51,14 +51,30 @@ public class BaseClass{
 		webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
-	@Test(dataProvider = "email-to-send", dataProviderClass = GetDataProvider.class)
-	public void sendEmail(String fromEmail, String toEmail, String password, String subject, String content) throws InterruptedException {
+	@Test(dataProvider = "email-with-content", dataProviderClass = GetDataProvider.class)
+	public void sendEmailWithContent(String fromEmail, String toEmail, String password, String subject, String content) throws InterruptedException {
 		System.out.println("Go to Email");
 		MobileMailSignIn home = new MobileMailSignIn(driver);
 		home.clickGotIt();
 		MobileMail mail = home.goToEmail();
 		mail.selectHostMail(fromEmail);
 		mail.sendMail(toEmail, subject, content);
+		System.out.println("Checking new email");
+		webDriver.get("https://www.google.com/intl/en/gmail/about/#");
+		GoogleEmail gmail = new GoogleEmail(webDriver);
+		gmail.clickSignIn();
+		gmail.signIn(toEmail, password);
+		assert(gmail.waitForNewEmailFrom(fromEmail));
+	}
+	
+	@Test(dataProvider = "email-without-content", dataProviderClass = GetDataProvider.class)
+	public void sendEmailWithoutContent(String fromEmail, String toEmail, String password, String subject) throws InterruptedException {
+		System.out.println("Go to Email");
+		MobileMailSignIn home = new MobileMailSignIn(driver);
+		home.clickGotIt();
+		MobileMail mail = home.goToEmail();
+		mail.selectHostMail(fromEmail);
+		mail.sendMailWithoutContent(toEmail, subject);
 		System.out.println("Checking new email");
 		webDriver.get("https://www.google.com/intl/en/gmail/about/#");
 		GoogleEmail gmail = new GoogleEmail(webDriver);
