@@ -6,7 +6,7 @@
              <parameter name="url" value="http://0.0.0.0:4723/wd/hub" />
 
                         <classes>
-                                    <class name="tests.BaseClass.sendEmailWithoutContent"/>
+                                    <class name="tests.BaseClass"/>
                         </classes>
             </test>
 </suite>

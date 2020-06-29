@@ -5,7 +5,7 @@
     <classes>
       <class name="tests.BaseClass">
         <methods>
-          <include name="sendEmailWithoutContent"/>
+          <include name="sendEmailWithContent"/>
           <include name="afterMethod"/>
           <include name="beforeMethod"/>
         </methods>
