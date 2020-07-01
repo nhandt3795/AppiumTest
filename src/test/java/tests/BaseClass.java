@@ -62,7 +62,7 @@ public class BaseClass{
 	@Test(dataProvider = "email-with-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailWithContent(String fromEmail, String toEmail, String password, String subject, String content) throws InterruptedException {
 		String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-		subject = subject + currentTime;
+		subject = subject + "_" + currentTime;
 		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
 		mail = home.goToEmail();
@@ -78,7 +78,7 @@ public class BaseClass{
 	@Test(dataProvider = "email-without-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailWithoutContent(String fromEmail, String toEmail, String password, String subject) throws InterruptedException {
 		String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-		subject = subject + currentTime;
+		subject = subject + "_" + currentTime;
 		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
 		mail = home.goToEmail();
@@ -94,7 +94,7 @@ public class BaseClass{
 	@Test(dataProvider = "email-without-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailAndCheck(String fromEmail, String toEmail, String password, String subject) throws InterruptedException {
 		String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-		subject = subject + currentTime;
+		subject = subject + "_" + currentTime;
 		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
 		mail = home.goToEmail();

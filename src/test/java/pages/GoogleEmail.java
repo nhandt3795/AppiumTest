@@ -76,6 +76,7 @@ public class GoogleEmail {
 				Utils.logInfo("Mail not found. Refreshing...");
 				driver.navigate().refresh();
 			} else {
+				Utils.logInfo("Found new email");
 				Utils.logInfo("DONE");
 				return true;
 			}
