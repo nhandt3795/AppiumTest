@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import utility.Utils;
 
 public class MobileMailSignIn extends Base {
 
@@ -18,7 +19,7 @@ public class MobileMailSignIn extends Base {
 	}
 
 	public void clickGotIt() {
-		System.out.println("[INFO] Going to Email");
+		Utils.logInfo("Going to Email");
 		MobileElement gotItButton = driver.findElementById(ID_BTN_GOT_IT);
 		gotItButton.click();
 	}

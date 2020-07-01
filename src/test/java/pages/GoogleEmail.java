@@ -14,6 +14,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 
+import utility.Utils;
+
 public class GoogleEmail {
 	WebDriver driver;
 	String LATESTMAILFROMPARAM = "(//*[@class=\"yW\"]//span[@email=\"{param}\"]/../../../..//td[@class=\"xW xY \"]/span/span)[1]";
@@ -31,7 +33,7 @@ public class GoogleEmail {
 	}
 
 	public void signIn(String emailStr, String passwordStr) throws InterruptedException {
-		System.out.println("[INFO] Signing in G-mail on Google Chrome");
+		Utils.logInfo("Signing in G-mail on Google Chrome");
 		ArrayList<String> tabs = new ArrayList<String>(this.driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
 		this.setEmail(emailStr);
@@ -67,14 +69,14 @@ public class GoogleEmail {
 	}
 
 	public boolean waitForNewEmailFrom(String email) {
-		System.out.println("[INFO] Checking new email");
+		Utils.logInfo("Checking new email");
 		// Refresh until new email found
 		for (int i = 0; i < 5; i++) {
 			if (!isExistMailFrom(email)) {
-				System.out.println("[INFO] Mail not found. Refreshing...");
+				Utils.logInfo("Mail not found. Refreshing...");
 				driver.navigate().refresh();
 			} else {
-				System.out.println("[INFO] DONE");
+				Utils.logInfo("DONE");
 				return true;
 			}
 		}

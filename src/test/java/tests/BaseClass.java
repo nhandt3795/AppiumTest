@@ -19,10 +19,14 @@ import pages.GoogleEmail;
 import pages.MobileMail;
 import pages.MobileMailSignIn;
 import utility.GetDataProvider;
+import utility.Utils;
 
 public class BaseClass{
 	AppiumDriver<MobileElement> driver;
 	WebDriver webDriver;
+	MobileMailSignIn home;
+	MobileMail mail;
+	GoogleEmail gmail;
 	
 	@BeforeMethod
 	@Parameters({"deviceName","udid", "platformVersion","url"})
@@ -35,7 +39,7 @@ public class BaseClass{
 		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
 		caps.setCapability("appPackage", "com.google.android.gm");
 		caps.setCapability("appActivity", ".ConversationListActivityGmail");
-		System.out.println("[INFO] Starting Gmail");
+		Utils.logInfo("Starting Gmail");
 		
 		try {
 			URL urlHub = new URL (url);
@@ -55,13 +59,13 @@ public class BaseClass{
 	
 	@Test(dataProvider = "email-with-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailWithContent(String fromEmail, String toEmail, String password, String subject, String content) throws InterruptedException {
-		MobileMailSignIn home = new MobileMailSignIn(driver);
+		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
-		MobileMail mail = home.goToEmail();
+		mail = home.goToEmail();
 		mail.selectHostMail(fromEmail);
 		mail.sendMail(toEmail, subject, content);
 		webDriver.get("https://www.google.com/intl/en/gmail/about/#");
-		GoogleEmail gmail = new GoogleEmail(webDriver);
+		gmail = new GoogleEmail(webDriver);
 		gmail.clickSignIn();
 		gmail.signIn(toEmail, password);
 		assert(gmail.waitForNewEmailFrom(fromEmail));
@@ -69,13 +73,13 @@ public class BaseClass{
 	
 	@Test(dataProvider = "email-without-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailWithoutContent(String fromEmail, String toEmail, String password, String subject) throws InterruptedException {
-		MobileMailSignIn home = new MobileMailSignIn(driver);
+		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
-		MobileMail mail = home.goToEmail();
+		mail = home.goToEmail();
 		mail.selectHostMail(fromEmail);
 		mail.sendMailWithoutContent(toEmail, subject);
 		webDriver.get("https://www.google.com/intl/en/gmail/about/#");
-		GoogleEmail gmail = new GoogleEmail(webDriver);
+		gmail = new GoogleEmail(webDriver);
 		gmail.clickSignIn();
 		gmail.signIn(toEmail, password);
 		assert(gmail.waitForNewEmailFrom(fromEmail));
@@ -83,13 +87,13 @@ public class BaseClass{
 	
 	@Test(dataProvider = "email-without-content", dataProviderClass = GetDataProvider.class)
 	public void sendEmailAndCheck(String fromEmail, String toEmail, String password, String subject) throws InterruptedException {
-		MobileMailSignIn home = new MobileMailSignIn(driver);
+		home = new MobileMailSignIn(driver);
 		home.clickGotIt();
-		MobileMail mail = home.goToEmail();
+		mail = home.goToEmail();
 		mail.selectHostMail(fromEmail);
 		mail.sendMailWithoutContent(toEmail, subject);
 		webDriver.get("https://www.google.com/intl/en/gmail/about/#");
-		GoogleEmail gmail = new GoogleEmail(webDriver);
+		gmail = new GoogleEmail(webDriver);
 		gmail.clickSignIn();
 		gmail.signIn(toEmail, password);
 		assert(gmail.isExistMailFrom(fromEmail));
