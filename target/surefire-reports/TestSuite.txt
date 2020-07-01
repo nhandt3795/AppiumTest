@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: TestSuite
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 224.125 sec <<< FAILURE! - in TestSuite
+TC3(tests.BaseClass)  Time elapsed: 32.221 sec  <<< FAILURE!
+org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of all elements located by By.id: com.google.android.gm:id/account_address (tried for 30 second(s) with 500 milliseconds interval)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'DESKTOP-HEJ0U33', ip: '192.168.137.1', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '14.0.1'
+Driver info: io.appium.java_client.AppiumDriver
+Capabilities {appActivity: .ConversationListActivityGmail, appPackage: com.google.android.gm, databaseEnabled: false, desired: {appActivity: .ConversationListActivityGmail, appPackage: com.google.android.gm, deviceName: Galaxy A5, platformName: android, platformVersion: 7.0, udid: 330089a828d1a343}, deviceApiLevel: 24, deviceManufacturer: samsung, deviceModel: SM-A510F, deviceName: 330089a828d1a343, deviceScreenDensity: 480, deviceScreenSize: 1080x1920, deviceUDID: 330089a828d1a343, javascriptEnabled: true, locationContextEnabled: false, networkConnectionEnabled: true, pixelRatio: 3, platform: LINUX, platformName: Android, platformVersion: 7.0, statBarHeight: 72, takesScreenshot: true, udid: 330089a828d1a343, viewportRect: {height: 1848, left: 0, top: 72, width: 1080}, warnings: {}, webStorageEnabled: false}
+Session ID: 978b8835-aebd-4ff2-89af-7013ca43a151
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:95)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:272)
+	at pages.MobileMailSignIn.goToEmail(MobileMailSignIn.java:29)
+	at tests.BaseClass.TC3(BaseClass.java:87)
+

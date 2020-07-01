@@ -80,20 +80,6 @@ public class ExcelUtils {
 		}
 	}
 
-	public static String getTestCaseName(String sTestCase) throws Exception {
-		String value = sTestCase;
-
-		try {
-			int posi = value.indexOf("@");
-			value = value.substring(0, posi);
-			posi = value.lastIndexOf(".");
-			value = value.substring(posi + 1);
-			return value;
-		} catch (Exception e) {
-			throw (e);
-		}
-	}
-
 	public static List<Integer> getRowContains(String sTestCaseName, int iTestCaseNameColNum) throws Exception {
 		List <Integer> listRow = new ArrayList<Integer>();
 		try {
@@ -136,10 +122,9 @@ public class ExcelUtils {
 			
 			List<Integer> listTestCaseRow = getRowContains(sTestCaseName, iTestCaseNameColNum);
 			int totalRows = listTestCaseRow.size();
-			System.out.println(totalRows);
 			int totalCols = ExcelWSheet.getRow(listTestCaseRow.get(0)).getLastCellNum();
-			System.out.println(totalCols);
 			tabArray = new String[totalRows][totalCols-1];
+			System.out.println("----------Data Test----------");
 			for (int i = 0; i < totalRows; i++, ci++) {
 				int cj = 0;
 				for (int j = startCol; j < totalCols; j++, cj++) {
@@ -147,6 +132,7 @@ public class ExcelUtils {
 					System.out.println(tabArray[ci][cj]);
 				}
 			}
+			System.out.println("-----------------------------");
 		} catch (FileNotFoundException e) {
 			System.out.println("Could not read the Excel sheet");
 			e.printStackTrace();

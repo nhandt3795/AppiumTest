@@ -1,6 +1,5 @@
 pages\MobileMail.class
 utility\ExcelUtils.class
-tests\Temp.class
 tests\BaseClass.class
 pages\MobileMailSignIn.class
 utility\GetDataProvider.class

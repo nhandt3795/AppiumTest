@@ -1,12 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="parallel">
-            <test name="Device-1">
-             <parameter name="deviceName" value="Galaxy A5" />
-             <parameter name="udid" value="330089a828d1a343" />
-             <parameter name="platformVersion" value="7.0" />
-             <parameter name="url" value="http://0.0.0.0:4723/wd/hub" />
+	<test name="Device-1">
+		<parameter name="deviceName" value="Galaxy A5" />
+		<parameter name="udid" value="330089a828d1a343" />
+		<parameter name="platformVersion" value="7.0" />
+		<parameter name="url" value="http://0.0.0.0:4723/wd/hub" />
 
-                        <classes>
-                                    <class name="tests.BaseClass"/>
-                        </classes>
-            </test>
+		<classes>
+			<class name="tests.BaseClass" />
+		</classes>
+	</test>
 </suite>

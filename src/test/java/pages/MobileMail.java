@@ -23,7 +23,7 @@ public class MobileMail extends Base{
 	public void sendMail(String toEmail, String subject, String content) {
 		MobileElement composeButton =  driver.findElementById(ID_BTN_COMPOSE);
 		composeButton.click();
-		System.out.println("Composing Email");
+		System.out.println("[INFO] Composing Email");
 		MobileElement fTo =  driver.findElementById(ID_TXT_TO);
 		fTo.sendKeys(toEmail);
 		MobileElement fSubject =  driver.findElementById(ID_TXT_SUBJECT);
@@ -32,20 +32,20 @@ public class MobileMail extends Base{
 		fContent.sendKeys(content);
 		MobileElement sendButton =  driver.findElementById(ID_BTN_SEND);
 		sendButton.click();
-		System.out.println("Sent Email");
+		System.out.println("[INFO] Email Sent");
 	}
 	
 	public void sendMailWithoutContent(String toEmail, String subject) {
 		MobileElement composeButton =  driver.findElementById(ID_BTN_COMPOSE);
 		composeButton.click();
-		System.out.println("Composing Email");
+		System.out.println("[INFO] Composing Email");
 		MobileElement fTo =  driver.findElementById(ID_TXT_TO);
 		fTo.sendKeys(toEmail);
 		MobileElement fSubject =  driver.findElementById(ID_TXT_SUBJECT);
 		fSubject.sendKeys(subject);
 		MobileElement sendButton =  driver.findElementById(ID_BTN_SEND);
 		sendButton.click();
-		System.out.println("Sent Email");
+		System.out.println("[INFO] Email Sent");
 	}
 	
 	public void selectHostMail(String fromEmail) {
@@ -66,5 +66,4 @@ public class MobileMail extends Base{
 			}
 		}
 	}
-	
 }
