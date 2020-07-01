@@ -104,7 +104,7 @@ public class BaseClass{
 		gmail = new GoogleEmail(webDriver);
 		gmail.clickSignIn();
 		gmail.signIn(toEmail, password);
-		assert(gmail.isExistMailFrom(fromEmail));
+		assert(gmail.isExistMailFrom(toEmail));
 	}
 	
 	@AfterMethod
